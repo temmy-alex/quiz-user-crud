@@ -23,5 +23,7 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::group(['middleware' => ['auth']], function() {
+    Route::get('users/list', [UserController::class, 'index'])->name('users.list');
     Route::post('users/store', [UserController::class, 'store'])->name('users.store');
+    Route::get('users/show/{id}', [UserController::class, 'show'])->name('users.show');
 });

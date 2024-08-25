@@ -5,11 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\HobbyDetail;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
+    public function index()
+    {
+        // $users = User::orderBy('id', 'desc')->simplePaginate(1);
+        $users = User::orderBy('id', 'desc')->paginate(1);
+        return view('users.index', ['users' => $users]);
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -48,5 +56,23 @@ class UserController extends Controller
         }
 
         return redirect()->back();
+    }
+
+    public function show($id)
+    {
+        $user = User::find($id);
+
+        // Menggunakan Query Builder
+        $hobbies = DB::table('hobby_details')
+            ->join('hobbies', 'hobby_details.hobby_id', '=', 'hobbies.id')
+            ->join('users', 'hobby_details.user_id', '=', 'users.id')
+            ->select('hobbies.name AS hobbyName', 'users.id')
+            ->where('users.id', $id)
+            ->get();
+
+        return view('users.show', [
+            'user' => $user,
+            'hobbies' => $hobbies
+        ]);
     }
 }

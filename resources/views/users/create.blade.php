@@ -5,16 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">
-                    <div class="row">
-                        <div class="col-md-10">
-                            {{ __('Create User') }}
-                        </div>
-                        <div class="col-md-2">
-                            <a href="{{ route('users.list') }}" class="btn btn-success">List User</a>
-                        </div>
-                    </div>
-                </div>
+                <div class="card-header">{{ __('Create User') }}</div>
 
                 <div class="card-body">
                     <form action="{{ route('users.store') }}" method="post" enctype="multipart/form-data">

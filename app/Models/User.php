@@ -55,4 +55,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Occupation::class);
     }
+
+    public function getPhoto()
+    {
+        return asset('files/'.$this->photo);
+    }
 }
