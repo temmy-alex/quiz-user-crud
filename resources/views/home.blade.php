@@ -59,10 +59,21 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="password" class="form-label">Photo</label>
+                            <label for="photo" class="form-label">Photo</label>
                             <input type="file" name="photo" class="form-control">
 
                             @error('photo')
+                                <div class="text-danger">
+                                    <small>{{ $message }}</small>
+                                </div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="document" class="form-label">Document</label>
+                            <input type="file" name="document" class="form-control">
+
+                            @error('document')
                                 <div class="text-danger">
                                     <small>{{ $message }}</small>
                                 </div>

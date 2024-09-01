@@ -28,7 +28,8 @@ class User extends Authenticatable
         'password',
         'photo',
         'occupation_id',
-        'gender'
+        'gender',
+        'document'
     ];
 
     /**
@@ -59,5 +60,12 @@ class User extends Authenticatable
     public function getPhoto()
     {
         return asset('files/'.$this->photo);
+        // public/files/photos/namafile
+    }
+
+    public function getDocument()
+    {
+        return asset('files/'.$this->document);
+        // public/files/documents/namafile
     }
 }

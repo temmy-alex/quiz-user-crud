@@ -42,7 +42,7 @@
                                         </span>
                                     </td>
                                     <td>
-                                        <a href="#" class="btn btn-success">Edit</a>
+                                        <a href="{{ route('users.edit', $user->id) }}" class="btn btn-success">Edit</a>
                                         <a href="{{ route('users.show', $user->id) }}" class="btn btn-primary">Show</a>
                                     </td>
                                 </tr>

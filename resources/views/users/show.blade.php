@@ -54,6 +54,16 @@
                                         </span>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td>Document</td>
+                                    <td>
+                                        <form action="{{ route('users.download',$user->id) }}" method="post">
+                                            @csrf
+                                            <button type="submit" class="btn btn-success">Download</button>
+                                        </form>
+                                        {{-- <a href="{{ $user->getDocument() }}" class="btn btn-success">Download</a> --}}
+                                    </td>
+                                </tr>
                             </table>
                         </div>
                         <div class="col-md-6">

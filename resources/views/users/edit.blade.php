@@ -5,15 +5,16 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Create User') }}</div>
+                <div class="card-header">{{ __('Edit User') }}</div>
 
                 <div class="card-body">
-                    <form action="{{ route('users.store') }}" method="post" enctype="multipart/form-data">
+                    <form action="{{ route('users.update', $user->id) }}" method="post" enctype="multipart/form-data">
                         @csrf
+                        @method('PATCH')
 
                         <div class="mb-3">
                             <label for="name" class="form-label">Name</label>
-                            <input type="text" name="name" class="form-control" value="{{ old('name') }}">
+                            <input type="text" name="name" class="form-control" value="{{ old('name', $user->name) }}">
 
                             @error('name')
                                 <div class="text-danger">
@@ -24,7 +25,7 @@
 
                         <div class="mb-3">
                             <label for="name" class="form-label">Email</label>
-                            <input type="email" name="email" class="form-control" value="{{ old('email') }}">
+                            <input type="email" name="email" class="form-control" value="{{ old('email', $user->email) }}">
 
                             @error('email')
                                 <div class="text-danger">
@@ -76,7 +77,9 @@
                             <select class="form-select form-select-lg mb-3" name="occupation_id" aria-label="Large select example">
                                 <option value="">Choose Occupation</option>
                                 @foreach ($occupations as $occupation)
-                                    <option value="{{ $occupation->id }}">
+                                    <option value="{{ $occupation->id }}"
+                                        {{ $user->occupation_id == $occupation->id ? 'selected' : '' }}
+                                        {{ old('occupation_id') == $occupation->id ? 'selected' : '' }}>
                                         {{ $occupation->name }}
                                     </option>
                                 @endforeach
@@ -92,14 +95,16 @@
                         <div class="mb-3">
                             <label for="password" class="form-label">Gender</label>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="gender" value="{{ $genderMale }}">
+                                <input class="form-check-input" type="radio" name="gender" value="{{ $genderMale }}"
+                                     {{ $user->gender == $genderMale ? 'checked' : '' }}>
                                 <label class="form-check-label">
                                     {{ ucfirst($genderMale) }}
                                 </label>
                             </div>
 
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="gender" value="{{ $genderFemale }}">
+                                <input class="form-check-input" type="radio" name="gender" value="{{ $genderFemale }}"
+                                    {{ $user->gender == $genderFemale ? 'checked' : '' }}>
                                 <label class="form-check-label">
                                     {{ ucfirst($genderFemale) }}
                                 </label>
@@ -116,7 +121,9 @@
                             <label for="password" class="form-label">Hobbies</label>
                             @foreach ($hobbies as $hobby)
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="hobbies[]" value="{{ $hobby->id }}">
+                                    <input class="form-check-input" type="checkbox" name="hobbies[]"
+                                        {{ in_array($hobby->id, $hobbiesDetails) ? 'checked' : '' }}
+                                        value="{{ $hobby->id }}">
                                     <label class="form-check-label">
                                         {{ $hobby->name }}
                                     </label>

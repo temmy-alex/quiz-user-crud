@@ -26,4 +26,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('users/list', [UserController::class, 'index'])->name('users.list');
     Route::post('users/store', [UserController::class, 'store'])->name('users.store');
     Route::get('users/show/{id}', [UserController::class, 'show'])->name('users.show');
+    Route::get('users/edit/{id}', [UserController::class, 'edit'])->name('users.edit');
+    Route::patch('users/update/{id}', [UserController::class, 'update'])->name('users.update');
+    Route::post('users/download/{id}', [UserController::class, 'downloadFile'])->name('users.download');
 });
