@@ -42,8 +42,34 @@
                                         </span>
                                     </td>
                                     <td>
-                                        <a href="{{ route('users.edit', $user->id) }}" class="btn btn-success">Edit</a>
-                                        <a href="{{ route('users.show', $user->id) }}" class="btn btn-primary">Show</a>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <a href="{{ route('users.edit', $user->id) }}" class="btn btn-success btn-sm">Edit</a>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <a href="{{ route('users.show', $user->id) }}" class="btn btn-primary btn-sm">Show</a>
+                                            </div>
+                                            <div class="col-md-3">
+                                                {{-- <form action="{{ route('users.delete', $user->id) }}" method="post"
+                                                    onSubmit="if(!confirm('Are you sure delete this data?')){return false;}">
+                                                    @csrf
+                                                    @method('DELETE')
+
+                                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                                </form> --}}
+
+                                                <button id="delete" data-title="{{ $user->name }}"
+                                                    href="{{ route('users.delete', $user->id) }}" class="btn btn-danger btn-sm">
+                                                    Delete
+                                                </button>
+
+                                                <form method="post" id="deleteForm">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <input type="submit" value="" style="display:none;">
+                                                </form>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
@@ -59,3 +85,30 @@
     </div>
 </div>
 @endsection
+
+@push('script')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+    $('button#delete').on('click', function () {
+        var href = $(this).attr('href');
+        var title = $(this).data('title');
+
+        swal({
+                title: "Apakah Anda yakin menghapus data booking member " + title + " ?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    document.getElementById('deleteForm').action = href;
+                    document.getElementById('deleteForm').submit();
+                    swal("Data booking member has been deleted!", {
+                        icon: "success",
+                    });
+                }
+            });
+    });
+</script>
+@endpush

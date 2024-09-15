@@ -29,4 +29,5 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('users/edit/{id}', [UserController::class, 'edit'])->name('users.edit');
     Route::patch('users/update/{id}', [UserController::class, 'update'])->name('users.update');
     Route::post('users/download/{id}', [UserController::class, 'downloadFile'])->name('users.download');
+    Route::delete('user/delete/{id}', [UserController::class, 'destroy'])->name('users.delete');
 });

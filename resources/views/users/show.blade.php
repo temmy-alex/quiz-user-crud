@@ -16,6 +16,7 @@
                     </div>
                 </div>
                 <div class="card-body">
+                    <a href="" class="btn btn-success">Show Hobby</a>
                     <div class="row">
                         <div class="col-md-6">
                             <table class="table table-borderless">
@@ -61,7 +62,6 @@
                                             @csrf
                                             <button type="submit" class="btn btn-success">Download</button>
                                         </form>
-                                        {{-- <a href="{{ $user->getDocument() }}" class="btn btn-success">Download</a> --}}
                                     </td>
                                 </tr>
                             </table>
@@ -70,9 +70,25 @@
                             <img src="{{ $user->getPhoto() }}" alt="{{ $user->name }}" class="w-100 h-100">
                         </div>
                     </div>
+
+                    <table class="table" id="table-hobby">
+                        <thead>
+                          <tr>
+                            <th scope="col">Hobby</th>
+                            <th scope="col">Name</th>
+                          </tr>
+                        </thead>
+                        <tbody></tbody>
+                      </table>
                 </div>
             </div>
         </div>
     </div>
 </div>
 @endsection
+
+@push('script')
+    <script>
+
+    </script>
+@endpush

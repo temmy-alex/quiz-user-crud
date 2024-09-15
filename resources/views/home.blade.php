@@ -12,6 +12,7 @@
                         </div>
                         <div class="col-md-2">
                             <a href="{{ route('users.list') }}" class="btn btn-success">List User</a>
+                            {{-- <a href="{{ url('users/list') }}" class="btn btn-success">List User by URL</a> --}}
                         </div>
                     </div>
                 </div>

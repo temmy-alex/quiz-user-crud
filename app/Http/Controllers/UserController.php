@@ -180,11 +180,13 @@ class UserController extends Controller
             'gender' => $request->gender
         ]);
 
+        // Kosongkan data berdasarkan user_id
         $hobbyDetails = HobbyDetail::where('user_id', $id)->get();
         foreach ($hobbyDetails as $hobbyDetail) {
             $hobbyDetail->delete();
         }
 
+        // Lakukan insert ulang
         foreach ($request->hobbies as $key => $value) {
             HobbyDetail::create([
                 'hobby_id' => $value,
@@ -224,5 +226,52 @@ class UserController extends Controller
         ];
 
         return response()->download($file, $filename, $headers);
+    }
+
+    public function list($id)
+    {
+        $deliveryOrders = DB::table('delivery_goods_letters')
+            ->join('delivery_goods_letters_details', 'delivery_goods_letters.id', '=', 'delivery_goods_letters_details.delivery_goods_letters_id')
+            ->join('products', 'delivery_goods_letters_details.product_id', '=', 'products.id')
+            ->join('units', 'products.unit_id', '=', 'units.id')
+            ->select('delivery_goods_letters.id', 'products.name AS productName',
+                'products.description AS productDescription', 'units.name AS unitName',
+                'delivery_goods_letters_details.qty AS qty')
+            ->where('delivery_goods_letters.id', $id)
+            ->get();
+
+        $hobbyDetails = DB::table('hobby_details')
+                    ->join('hobbies', 'hobby_details.hobby_id', '=', 'hobbies.id')
+                    ->join('users', 'hobby_details.user_id', '=', 'users.id')
+                    ->select('users.name AS userName', 'hobby.name AS hobbyName')
+                    ->where('users.id', $id)
+                    ->get();
+
+        return view('users.list');
+    }
+
+    public function destroy($id)
+    {
+        // Hard Delete
+        // Menghapus data user pada table user menggunakan hard delete
+        $user = User::find($id);
+        $user->delete();
+
+        // Menghapus hobi yang dimiliki oleh user di table hobby_details berdasarkan user_id
+        $hobbyDetails = HobbyDetail::where('user_id', $id)->get();
+        foreach ($hobbyDetails as $hobbyDetail)
+        {
+            $hobbyDetail->delete();
+        }
+
+        // Menghapus photo user yang berada di dalam public/files/photo
+        $path = public_path('files/'. $user->photo); // digunakan untuk mencari folder foto user
+        // file_exists merupakan fungsi bawaan php yang digunakan untuk mencari file di dalam folder (dalam hal ini folder yang berada
+        // di dalam variable $path)
+        if (file_exists($path)) {
+            unlink($path);
+        }
+
+        return redirect()->route('users.list')->with('success', 'Delete user success');
     }
 }
