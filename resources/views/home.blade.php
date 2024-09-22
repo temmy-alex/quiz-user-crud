@@ -86,7 +86,8 @@
                             <select class="form-select form-select-lg mb-3" name="occupation_id" aria-label="Large select example">
                                 <option value="">Choose Occupation</option>
                                 @foreach ($occupations as $occupation)
-                                    <option value="{{ $occupation->id }}">
+                                    <option value="{{ $occupation->id }}"
+                                        {{ old('occupation_id') == $occupation->id ? 'selected' : '' }}>
                                         {{ $occupation->name }}
                                     </option>
                                 @endforeach
@@ -102,14 +103,16 @@
                         <div class="mb-3">
                             <label for="password" class="form-label">Gender</label>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="gender" value="{{ $genderMale }}">
+                                <input class="form-check-input" type="radio" name="gender" value="{{ $genderMale }}"
+                                    {{ old('gender') == $genderMale ? 'checked' : '' }}>
                                 <label class="form-check-label">
                                     {{ ucfirst($genderMale) }}
                                 </label>
                             </div>
 
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="gender" value="{{ $genderFemale }}">
+                                <input class="form-check-input" type="radio" name="gender" value="{{ $genderFemale }}"
+                                    {{ old('gender') == $genderFemale ? 'checked' : '' }}>
                                 <label class="form-check-label">
                                     {{ ucfirst($genderFemale) }}
                                 </label>
@@ -126,7 +129,8 @@
                             <label for="password" class="form-label">Hobbies</label>
                             @foreach ($hobbies as $hobby)
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="hobbies[]" value="{{ $hobby->id }}">
+                                    <input class="form-check-input" type="checkbox" name="hobbies[]" value="{{ $hobby->id }}"
+                                        {{ old('hobbies') && in_array($hobby->id, old('hobbies'))? 'checked' : '' }}>
                                     <label class="form-check-label">
                                         {{ $hobby->name }}
                                     </label>

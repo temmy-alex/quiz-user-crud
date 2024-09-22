@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('photo');
             $table->unsignedBigInteger('occupation_id');
             $table->string('gender');
+            $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();
         });

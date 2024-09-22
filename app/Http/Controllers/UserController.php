@@ -173,6 +173,7 @@ class UserController extends Controller
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
+            'status' => $request->status,
             'password' => $password,
             'photo' => $photoName,
             'document' => $documentName,
@@ -250,6 +251,39 @@ class UserController extends Controller
         return view('users.list');
     }
 
+    public function listByStatus()
+    {
+        // $users = User::where('status', User::ACTIVE)->get();
+        $users = User::get();
+        return view('users.listByStatus', ['users' => $users]);
+    }
+
+    public function updateByStatus(Request $request, $email)
+    {
+        $user = User::where('email', $email)->first();
+        $user->update([
+            'status' => $request->status
+        ]);
+
+        return redirect()->route('users.list-by-status')->with('success', 'Update success');
+    }
+
+    public function listThrasedData()
+    {
+        // SELECT * FROM users WHERE deleted_at IS NOT NULL;
+        $users = User::onlyTrashed()->get();
+        return view('users.onlyThrased', ['users' => $users]);
+    }
+
+    public function restoreData($id)
+    {
+        // SELECT * FROM users WHERE deleted_at IS NOT NULL AND id = 2
+        $user = User::withTrashed()->find($id);
+        $user->restore();
+
+        return redirect()->route('users.list')->with('success', 'Restore data success');
+    }
+
     public function destroy($id)
     {
         // Hard Delete
@@ -264,13 +298,16 @@ class UserController extends Controller
             $hobbyDetail->delete();
         }
 
+        // Fungsi Gambar dibawah hanya untuk Hard Delete
         // Menghapus photo user yang berada di dalam public/files/photo
-        $path = public_path('files/'. $user->photo); // digunakan untuk mencari folder foto user
+
+        // $path = public_path('files/'. $user->photo); // digunakan untuk mencari folder foto user
         // file_exists merupakan fungsi bawaan php yang digunakan untuk mencari file di dalam folder (dalam hal ini folder yang berada
         // di dalam variable $path)
-        if (file_exists($path)) {
-            unlink($path);
-        }
+
+        // if (file_exists($path)) {
+        //     unlink($path);
+        // }
 
         return redirect()->route('users.list')->with('success', 'Delete user success');
     }

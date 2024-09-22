@@ -30,4 +30,11 @@ Route::group(['middleware' => ['auth']], function() {
     Route::patch('users/update/{id}', [UserController::class, 'update'])->name('users.update');
     Route::post('users/download/{id}', [UserController::class, 'downloadFile'])->name('users.download');
     Route::delete('user/delete/{id}', [UserController::class, 'destroy'])->name('users.delete');
+
+    Route::get('users/list-by/status', [UserController::class, 'listByStatus'])->name('users.list-by-status');
+    Route::patch('users/update-by/status/{email}', [UserController::class, 'updateByStatus'])->name('users.updateStatus');
+
+    // Soft Delete
+    Route::get('users/thrased', [UserController::class, 'listThrasedData'])->name('users.onlyThrased');
+    Route::patch('users/restore/{id}', [UserController::class, 'restoreData'])->name('users.restoreData');
 });

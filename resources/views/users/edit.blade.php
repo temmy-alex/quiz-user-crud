@@ -73,6 +73,27 @@
                         </div>
 
                         <div class="mb-3">
+                            <label for="password" class="form-label">Status</label>
+                            <select class="form-select form-select-lg mb-3" name="occupation_id" aria-label="Large select example">
+                                <option value="">Choose Status</option>
+                                <option value="active"
+                                    {{ $user->status == 'active' ? 'selected' : '' }}>
+                                    Active
+                                </option>
+                                <option value="inactive"
+                                    {{ $user->status == 'inactive' ? 'selected' : '' }}>
+                                    Inactive
+                                </option>
+                            </select>
+
+                            @error('document')
+                                <div class="text-danger">
+                                    <small>{{ $message }}</small>
+                                </div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
                             <label for="password" class="form-label">Occupation</label>
                             <select class="form-select form-select-lg mb-3" name="occupation_id" aria-label="Large select example">
                                 <option value="">Choose Occupation</option>

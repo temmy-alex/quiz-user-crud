@@ -37,4 +37,11 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
         $this->middleware('auth')->only('logout');
     }
+
+    // Hanya user yang memiliki status 'active' yang boleh login
+    protected function credentials(\Illuminate\Http\Request $request)
+    {
+        //return $request->only($this->username(), 'password');
+        return [$this->username() => $request->{$this->username()}, 'password' => $request->password, 'status' => 'active'];
+    }
 }
